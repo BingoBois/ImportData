@@ -1,30 +1,34 @@
 import neo4j from 'neo4j-driver'
 
-const NEO4J_URL = process.env.NEO4J_URL ? `bolt://${process.env.NEO4J_URL}:7687` : "bolt://188.166.0.53:7687/";
+const NEO4J_URL = process.env.NEO4J_URL ? `bolt://${process.env.NEO4J_URL}:7687` : "bolt://78.141.213.31:7687";
 const NEO4J_USER = process.env.NEO4J_USER ? process.env.NEO4J_USER : "neo4j";
-const NEO4J_PASS = process.env.NEO4J_PASS ? process.env.NEO4J_PASS : "mingade";
+const NEO4J_PASS = process.env.NEO4J_PASS ? process.env.NEO4J_PASS : "test";
 
-const driver = neo4j.driver(NEO4J_URL, neo4j.auth.basic(NEO4J_USER, NEO4J_PASS));
-const session = driver.session();
+
 
 export function createAuthorAndBook(name: string, title: string): Promise<boolean>{
+    const driver = neo4j.driver(NEO4J_URL, neo4j.auth.basic(NEO4J_USER, NEO4J_PASS));
+    const session = driver.session();
     const resultPromise = session.run(
-        `Create(a: Author {name: $name
-        })
+        `Create(a: Author {name: $name})
         Create(b: Book {
             title: $title
         })
         CREATE (a)-[r:Wrote]->(b);`,
-        { title: title, name: name }
+        {name: name, title: title}
     );
     return new Promise((resolve, reject) => {
-        const result = resultPromise.then((result: any) => {
+        resultPromise.then(result => {
+            driver.close();
+            session.close();
             resolve(true);
-        }).catch((err: any) => reject(err));
+          });
     })
 }
 
 export function createCityRelationToBook(title:string, city: string): Promise<boolean>{
+    const driver = neo4j.driver(NEO4J_URL, neo4j.auth.basic(NEO4J_USER, NEO4J_PASS));
+    const session = driver.session();
     const resultPromise = session.run(
         `MATCH(b: Book { title: $title })
         MATCH(a: Location { name: $name })
@@ -33,12 +37,13 @@ export function createCityRelationToBook(title:string, city: string): Promise<bo
     );
     return new Promise((resolve, reject) => {
         const result = resultPromise.then((result: any) => {
+            driver.close();
+            session.close();
             resolve(true);
         }).catch((err: any) => reject(err));
     })
 }
 
 export function close(){
-    driver.close();
-    session.close();
+    
 }
