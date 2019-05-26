@@ -31,4 +31,18 @@ return b, m, l
 ```
 
 # 3
-
+Mysql
+```
+SELECT Book.title, Location.`name`, latitude, longitude FROM Book
+INNER JOIN LocationInBook ON LocationInBook.fk_Book = Book.id
+INNER JOIN Location on Location.`name`=LocationInBook.fk_Location
+INNER JOIN BookWrittenBy on BookWrittenBy.fk_Book = Book.id
+INNER JOIN Author on Author.id = BookWrittenBy.fk_Author
+WHERE Author.`name`=  "Boccaccio, Giovanni";
+```
+Neo4j
+```
+match(a:Author {name: "Longfellow, Henry Wadsworth"})-[m:Wrote]->(b: Book)
+match(b1:Book {title: b.title})-[m1:Mentions]->(l:Location)
+return b1, m1, l;
+```
