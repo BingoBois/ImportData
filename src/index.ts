@@ -9,6 +9,7 @@ const citiesArr = getCities();
 // 
 // Få en liste over alle zip filer i mappen
 const zipFileArr = getZipFileNames();
+console.log(zipFileArr);
 (async () => {
     for (let index = 0; index < zipFileArr.length; index++) {
         const zipFileName = zipFileArr[index];
@@ -21,6 +22,7 @@ const zipFileArr = getZipFileNames();
         console.log("Valid", zipFileName)
         // udpak dem en af gangen
         try{
+            if(zipFileArr[index] === "5.zip"){throw Error("Test")}
             unzipFile(zipFileName)
             rdfContent = readRdf(zipFileName);
             const authors = getAuthors(rdfContent);

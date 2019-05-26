@@ -52,13 +52,13 @@ export function getMentionedCitiesInclude(fileName: string, cities: string[]): s
 
 export function getZipFileNames(): string[] {
     console.log("Getting zip names")
-    return fs.readdirSync(path.resolve(__dirname, '../zipfiles'));
+    return fs.readdirSync(path.resolve(__dirname, '../smallZip'));
 }
 
 export function unzipFile(fileName: string): void {
     console.log("Unzipping")
     try {
-        const zip = new Zip(path.resolve(__dirname, `../zipfiles/${fileName}`));
+        const zip = new Zip(path.resolve(__dirname, `../smallZip/${fileName}`));
         zip.extractAllTo(path.resolve(__dirname, `../unpacked/`))
     } catch (err) {
         console.log(err)

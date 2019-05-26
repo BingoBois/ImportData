@@ -32,7 +32,7 @@ export function createCityRelationToBook(title:string, city: string): Promise<bo
     const resultPromise = session.run(
         `MATCH(b: Book { title: $title })
         MATCH(a: Location { name: $name })
-        CREATE (a)-[r:Mentions]->(b);`,
+        CREATE (b)-[r:Mentions]->(a);`,
         { title: title, name: city }
     );
     return new Promise((resolve, reject) => {
