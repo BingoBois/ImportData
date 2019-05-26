@@ -28,6 +28,10 @@ console.log(zipFileArr);
             const authors = getAuthors(rdfContent);
             console.log("Resolving Authors")
             const title = getTitle(rdfContent);
+            if(title.length > 100)
+            {
+                continue;
+            }
             console.log("Resolving Title")
             // Led bogen igennem efter nævnte lande, ved at regex hvert element i lande arrayet
             // Hver titel har en samling, af lande den nævner
