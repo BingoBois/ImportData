@@ -46,3 +46,18 @@ match(a:Author {name: "Longfellow, Henry Wadsworth"})-[m:Wrote]->(b: Book)
 match(b1:Book {title: b.title})-[m1:Mentions]->(l:Location)
 return b1, m1, l;
 ```
+
+# 4
+Mysql
+```
+SELECT Book.title FROM Location 
+INNER JOIN LocationInBook ON LocationInBook.fk_Location = Location.`name`
+INNER JOIN Book ON Book.id = LocationInBook.fk_Book
+WHERE longitude <= 20+10 AND longitude >= 20-10 AND latitude <= 20+10 AND latitude >= 20-10;
+```
+Neo4j
+```
+match(b:Book)-[:Mentions]->(l:Location) 
+WHERE toFloat(l.latitude) > 30 AND toFloat(l.latitude) < 50 AND toFloat(l.longitude) > 30 AND toFloat(l.longitude) < 50
+return b.title LIMIT 500;
+```
