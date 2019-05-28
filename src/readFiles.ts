@@ -72,13 +72,6 @@ export function readRdf(name: string): string {
 }
 
 export function deleteFilesFromUnpacked(): void {
-    console.log("Deleting unzipped")
-    const files = fs.readdirSync(path.resolve(__dirname, '../unpacked'));
-    for (let i = 0; i < files.length; i++) {
-        if (!files[0].includes("txt")) {
-            fse.removeSync(path.resolve(__dirname, `../unpacked/${files[i]}`));
-        }else{
-            fs.unlinkSync(path.resolve(__dirname, `../unpacked/${files[i]}`))
-        }
-    }
+    console.log("Deleting unpacked folder")
+    rimraf.sync(path.resolve(__dirname, "../unpacked"));
 }
