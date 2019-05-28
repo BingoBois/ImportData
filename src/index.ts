@@ -28,8 +28,9 @@ console.log(zipFileArr);
             const authors = getAuthors(rdfContent);
             console.log("Resolving Authors")
             const title = getTitle(rdfContent);
-            if(title.length > 100)
+            if(title.length > 200)
             {
+                console.log("!!!!!!!!TITLE IS TOO LONG SKIPPING!!!!!!!!!")
                 continue;
             }
             console.log("Resolving Title")
@@ -38,8 +39,9 @@ console.log(zipFileArr);
             console.log("Getting all cities mentioned")
             const mentionedCities = getMentionedCitiesInclude(zipFileName, citiesArr);
             if(mentionedCities.length > 0){
-                await createAuthorAndBook(authors[0], title);
                 console.log("Inserting into Neo4j Author and Book")
+                await createAuthorAndBook(authors, title);
+                console.log("Finished inserting into Neo4j Author and Book")
                 for (let index = 0; index < mentionedCities.length; index++) {
                     const element = mentionedCities[index];
                     await createCityRelationToBook(title, element)
